@@ -13,18 +13,20 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import Menus from "../../ui/Menus";
 import { useNavigate } from "react-router-dom";
 
-// v1
-// const TableRow = styled.div`
-//   display: grid;
-//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-//   column-gap: 2.4rem;
-//   align-items: center;
-//   padding: 1.4rem 2.4rem;
-
-//   &:not(:last-child) {
-//     border-bottom: 1px solid var(--color-grey-100);
-//   }
-// `;
+// Card-mode row: on mobile each cabin becomes its own listing card
+// (image on top, details below), Booking.com-style, instead of a
+// horizontally-scrolling table row.
+const StyledCabinRow = styled(Table.Row)`
+  @media (max-width: 767px) {
+    grid-template-areas:
+      "img img"
+      "name actions"
+      "capacity capacity"
+      "price discount";
+    row-gap: 0;
+    column-gap: 0;
+  }
+`;
 
 const Img = styled.img`
   display: block;
@@ -34,6 +36,14 @@ const Img = styled.img`
   object-position: center;
   /* transform: scale(1.66666) translateX(-2px); */
   transform: scale(1.5) translateX(-7px);
+
+  @media (max-width: 767px) {
+    grid-area: img;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    transform: none;
+    border-radius: 0;
+  }
 `;
 
 const Cabin = styled.div`
@@ -41,17 +51,53 @@ const Cabin = styled.div`
   font-weight: 600;
   color: var(--color-grey-600);
   font-family: "Sono";
+
+  @media (max-width: 767px) {
+    grid-area: name;
+    font-size: 1.8rem;
+    color: var(--color-grey-800);
+    padding: 1.6rem 0 0 1.6rem;
+  }
+`;
+
+const Capacity = styled.div`
+  @media (max-width: 767px) {
+    grid-area: capacity;
+    padding: 0 1.6rem;
+    color: var(--color-grey-500);
+    font-size: 1.3rem;
+  }
 `;
 
 const Price = styled.div`
   font-family: "Sono";
   font-weight: 600;
+
+  @media (max-width: 767px) {
+    grid-area: price;
+    padding: 0 0 1.6rem 1.6rem;
+    font-size: 1.6rem;
+  }
 `;
 
 const Discount = styled.div`
   font-family: "Sono";
   font-weight: 500;
   color: var(--color-green-700);
+
+  @media (max-width: 767px) {
+    grid-area: discount;
+    padding: 0 1.6rem 1.6rem 0;
+    text-align: right;
+  }
+`;
+
+const Actions = styled.div`
+  @media (max-width: 767px) {
+    grid-area: actions;
+    padding: 1.6rem 1.6rem 0 0;
+    justify-self: end;
+  }
 `;
 
 function CabinRow({ cabin }) {
@@ -82,10 +128,10 @@ function CabinRow({ cabin }) {
 
   return (
     <>
-      <Table.Row>
+      <StyledCabinRow>
         <Img src={image} />
         <Cabin>{name}</Cabin>
-        <div>Fits up to {maxCapacity} quests</div>
+        <Capacity>Fits up to {maxCapacity} guests</Capacity>
         <Price>{formatCurrency(regularPrice)}</Price>
         <Discount>
           {discount ? (
@@ -94,7 +140,7 @@ function CabinRow({ cabin }) {
             <span className="text-center">&mdash;</span>
           )}
         </Discount>
-        <div className="flex item-center gap-1">
+        <Actions>
           <Modal>
             <Menus.Menu>
               <Menus.Toggle id={cabinId} />
@@ -133,8 +179,8 @@ function CabinRow({ cabin }) {
               />
             </Modal.Window>
           </Modal>
-        </div>
-      </Table.Row>
+        </Actions>
+      </StyledCabinRow>
     </>
   );
 }

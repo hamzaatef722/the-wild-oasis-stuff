@@ -14,6 +14,16 @@ const StyledDashboardLayout = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto 34rem auto;
   gap: 2.4rem;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto 34rem auto;
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, auto) 28rem auto;
+  }
 `;
 
 function DashboardLayout() {

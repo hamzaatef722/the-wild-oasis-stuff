@@ -16,6 +16,12 @@ const StyledCabinDetails = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    padding: 1.6rem;
+    gap: 1.6rem;
+  }
 `;
 
 const Img = styled.img`
@@ -23,6 +29,11 @@ const Img = styled.img`
   aspect-ratio: 3 / 2;
   object-fit: cover;
   border-radius: var(--border-radius-sm);
+  flex-shrink: 0;
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 const Info = styled.div`

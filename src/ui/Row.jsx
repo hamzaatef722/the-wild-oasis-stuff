@@ -8,6 +8,12 @@ const Row = styled.div`
     css`
       justify-content: space-between;
       align-items: center;
+
+      @media (max-width: 767px) {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.2rem;
+      }
     `}
 
   ${(props) =>

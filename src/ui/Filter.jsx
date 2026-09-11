@@ -8,6 +8,12 @@ const StyledFilter = styled.div`
   padding: 0.4rem;
   display: flex;
   gap: 0.4rem;
+
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+    border-radius: var(--border-radius-md);
+    justify-content: center;
+  }
 `;
 
 const FilterButton = styled.button`

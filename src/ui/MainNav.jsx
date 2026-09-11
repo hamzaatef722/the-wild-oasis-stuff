@@ -29,12 +29,16 @@ const StyledNavLink = styled(NavLink)`
     border-radius: var(--border-radius-sm);
     transition: all 0.25s;
 
-    ${(props) =>
-      props.$collapsed &&
-      css`
-        justify-content: center;
-        padding: 1.2rem;
-      `}
+    /* Manual icon-only collapse only applies on desktop — tablet/mobile
+       always show the full drawer with labels. */
+    @media (min-width: 1024px) {
+      ${(props) =>
+        props.$collapsed &&
+        css`
+          justify-content: center;
+          padding: 1.2rem;
+        `}
+    }
   }
 
   /* This works because react-router places the active class on the active NavLink */
@@ -70,6 +74,16 @@ const StyledNavLink = styled(NavLink)`
 const LinkLabel = styled.span`
   white-space: nowrap;
   overflow: hidden;
+
+  /* Only ever hidden by the manual collapse toggle, and only on desktop.
+     Tablet/mobile drawer always shows labels, no matter the desktop state. */
+  @media (min-width: 1024px) {
+    ${(props) =>
+      props.$hidden &&
+      css`
+        display: none;
+      `}
+  }
 `;
 
 const links = [
@@ -80,7 +94,7 @@ const links = [
   { to: "/settings", label: "Settings", icon: <HiOutlineCog6Tooth /> },
 ];
 
-function MainNav() {
+function MainNav({ onNavigate }) {
   const { isCollapsed } = useSidebar();
 
   return (
@@ -91,10 +105,11 @@ function MainNav() {
             <StyledNavLink
               to={link.to}
               $collapsed={isCollapsed}
-              title={isCollapsed ? link.label : undefined}
+              title={link.label}
+              onClick={onNavigate}
             >
               {link.icon}
-              {!isCollapsed && <LinkLabel>{link.label}</LinkLabel>}
+              <LinkLabel $hidden={isCollapsed}>{link.label}</LinkLabel>
             </StyledNavLink>
           </li>
         ))}

@@ -15,12 +15,14 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 1.2rem;
 
-  ${(props) =>
-    props.$collapsed &&
-    css`
-      flex-direction: column;
-      gap: 1.6rem;
-    `}
+  @media (min-width: 1024px) {
+    ${(props) =>
+      props.$collapsed &&
+      css`
+        flex-direction: column;
+        gap: 1.6rem;
+      `}
+  }
 `;
 
 const AccountLink = styled.button`
@@ -39,12 +41,14 @@ const AccountLink = styled.button`
     color: var(--color-sidebar-text-active);
   }
 
-  ${(props) =>
-    props.$collapsed &&
-    css`
-      flex: initial;
-      justify-content: center;
-    `}
+  @media (min-width: 1024px) {
+    ${(props) =>
+      props.$collapsed &&
+      css`
+        flex: initial;
+        justify-content: center;
+      `}
+  }
 `;
 
 const Avatar = styled.img`
@@ -65,6 +69,14 @@ const Name = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (min-width: 1024px) {
+    ${(props) =>
+      props.$hidden &&
+      css`
+        display: none;
+      `}
+  }
 `;
 
 const LogoutButton = styled.button`
@@ -88,29 +100,40 @@ const LogoutButton = styled.button`
   }
 `;
 
-function SidebarAccount({ collapsed = false }) {
+function SidebarAccount({ collapsed = false, onNavigate }) {
   const { user } = useUser();
   const { isLoading, logout } = useLogout();
   const navigate = useNavigate();
 
   const { avatar, fullName } = user.user_metadata;
 
+  function handleAccountClick() {
+    navigate("/account");
+    onNavigate?.();
+  }
+
+  function handleLogout() {
+    logout();
+    onNavigate?.();
+  }
+
   return (
     <Wrapper $collapsed={collapsed}>
       <AccountLink
         $collapsed={collapsed}
-        onClick={() => navigate("/account")}
+        onClick={handleAccountClick}
         title="Account"
       >
-        <Avatar src={avatar || "default-user.jpg"} alt={`avatar of ${fullName}`} />
-        {!collapsed && <Name>{fullName}</Name>}
+        <Avatar
+          src={avatar || "default-user.jpg"}
+          alt={`avatar of ${fullName}`}
+        />
+        <Name $hidden={collapsed}>{fullName}</Name>
       </AccountLink>
 
-      {!collapsed && (
-        <LogoutButton disabled={isLoading} onClick={logout} title="Logout">
-          {!isLoading ? <CiLogin /> : <SpinnerMini />}
-        </LogoutButton>
-      )}
+      <LogoutButton disabled={isLoading} onClick={handleLogout} title="Logout">
+        {!isLoading ? <CiLogin /> : <SpinnerMini />}
+      </LogoutButton>
     </Wrapper>
   );
 }

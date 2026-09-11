@@ -1,4 +1,5 @@
 import { useDarkMode } from "../../context/DarkModeContext";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import {
   Cell,
   Legend,
@@ -19,6 +20,10 @@ const ChartBox = styled.div`
   padding: 2.4rem 3.2rem;
 
   grid-column: 3 / span 2;
+
+  @media (max-width: 1023px) {
+    grid-column: 1 / -1;
+  }
 
   & .recharts-pie-label-text {
     font-weight: 600;
@@ -289,22 +294,23 @@ function prepareData(startData, stays) {
 
 function DurationChart({ recentStays }) {
   const { isDarkMode } = useDarkMode();
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const startData = isDarkMode ? startDataDark : startDataLight;
   const data = prepareData(startData, recentStays);
 
   return (
     <ChartBox>
       <Heading type="h2">Stay duration summary</Heading>
-      <ResponsiveContainer width="100%" height={240}>
+      <ResponsiveContainer width="100%" height={isMobile ? 380 : 240}>
         <PieChart>
           <Pie
             data={data}
             nameKey="duration"
             dataKey="value"
-            cx="40%"
-            cy="50%"
-            innerRadius={85}
-            outerRadius={110}
+            cx="50%"
+            cy={isMobile ? "35%" : "50%"}
+            innerRadius={isMobile ? 55 : 85}
+            outerRadius={isMobile ? 75 : 110}
             fill="#4f46e5"
             paddingAngle={3}
             startAngle={180}
@@ -320,12 +326,15 @@ function DurationChart({ recentStays }) {
           </Pie>
           <Tooltip />
           <Legend
-            // verticalAlign='bottom'
-            // align='center'
-            verticalAlign="middle"
-            align="right"
-            width="30%"
-            layout="vertical"
+            verticalAlign={isMobile ? "bottom" : "middle"}
+            align={isMobile ? "center" : "right"}
+            width={isMobile ? "100%" : "30%"}
+            layout={isMobile ? "horizontal" : "vertical"}
+            wrapperStyle={
+              isMobile
+                ? { display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.4rem 1.2rem" }
+                : undefined
+            }
             iconSize={15}
             iconType="circle"
           />

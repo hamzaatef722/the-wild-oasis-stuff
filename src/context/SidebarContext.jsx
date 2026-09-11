@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 const SidebarContext = createContext();
@@ -9,12 +9,31 @@ function SidebarProvider({ children }) {
     "isSidebarCollapsed",
   );
 
+  // Mobile off-canvas drawer — separate from the desktop collapse state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   function toggleSidebar() {
     setIsCollapsed((collapsed) => !collapsed);
   }
 
+  function toggleMobileMenu() {
+    setIsMobileMenuOpen((open) => !open);
+  }
+
+  function closeMobileMenu() {
+    setIsMobileMenuOpen(false);
+  }
+
   return (
-    <SidebarContext.Provider value={{ isCollapsed, toggleSidebar }}>
+    <SidebarContext.Provider
+      value={{
+        isCollapsed,
+        toggleSidebar,
+        isMobileMenuOpen,
+        toggleMobileMenu,
+        closeMobileMenu,
+      }}
+    >
       {children}
     </SidebarContext.Provider>
   );

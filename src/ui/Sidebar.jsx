@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
   HiOutlineChevronDoubleLeft,
   HiOutlineChevronDoubleRight,
+  HiXMark,
 } from "react-icons/hi2";
 
 import Logo from "./Logo";
@@ -21,6 +22,35 @@ const StyledSidebar = styled.aside`
   gap: 2.4rem;
   height: 100%;
   transition: padding 0.25s ease;
+
+  /* Tablet + Mobile: off-canvas drawer that slides in over the content,
+     from the right — opened via the header's hamburger button. */
+  @media (max-width: 1023px) {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: 28rem;
+    max-width: 80vw;
+    height: 100vh;
+    padding: 2.4rem;
+    z-index: 200;
+    border-right: none;
+    border-left: 1px solid var(--color-sidebar-border);
+    transform: translateX(${(props) => (props.$isMobileMenuOpen ? "0" : "100%")});
+    transition: transform 0.25s ease;
+    box-shadow: var(--shadow-lg);
+  }
+`;
+
+const Backdrop = styled.div`
+  display: none;
+
+  @media (max-width: 1023px) {
+    display: ${(props) => (props.$isMobileMenuOpen ? "block" : "none")};
+    position: fixed;
+    inset: 0;
+    background-color: var(--backdrop-color);
+    z-index: 150;
+  }
 `;
 
 const ToggleButton = styled.button`
@@ -31,6 +61,11 @@ const ToggleButton = styled.button`
   border-radius: var(--border-radius-sm);
   color: var(--color-sidebar-text);
   transition: all 0.2s;
+
+  /* Desktop-only manual collapse toggle — tablet/mobile use the drawer */
+  @media (max-width: 1023px) {
+    display: none;
+  }
 
   &:hover {
     background-color: var(--color-sidebar-hover);
@@ -44,30 +79,70 @@ const ToggleButton = styled.button`
   }
 `;
 
+const MobileCloseButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  align-self: flex-start;
+  padding: 0.6rem;
+  border-radius: var(--border-radius-sm);
+  color: var(--color-sidebar-text);
+
+  &:hover {
+    background-color: var(--color-sidebar-hover);
+    color: var(--color-sidebar-text-active);
+  }
+
+  & svg {
+    width: 2.2rem;
+    height: 2.2rem;
+    display: block;
+  }
+
+  @media (max-width: 1023px) {
+    display: block;
+  }
+`;
+
 function Sidebar() {
-  const { isCollapsed, toggleSidebar } = useSidebar();
+  const { isCollapsed, toggleSidebar, isMobileMenuOpen, closeMobileMenu } =
+    useSidebar();
 
   return (
-    <StyledSidebar $isCollapsed={isCollapsed}>
-      <ToggleButton
-        onClick={toggleSidebar}
+    <>
+      <Backdrop
+        $isMobileMenuOpen={isMobileMenuOpen}
+        onClick={closeMobileMenu}
+      />
+
+      <StyledSidebar
         $isCollapsed={isCollapsed}
-        title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        $isMobileMenuOpen={isMobileMenuOpen}
       >
-        {isCollapsed ? (
-          <HiOutlineChevronDoubleRight />
-        ) : (
-          <HiOutlineChevronDoubleLeft />
-        )}
-      </ToggleButton>
+        <MobileCloseButton onClick={closeMobileMenu} title="Close menu">
+          <HiXMark />
+        </MobileCloseButton>
 
-      <Logo collapsed={isCollapsed} />
-      <MainNav />
+        <ToggleButton
+          onClick={toggleSidebar}
+          $isCollapsed={isCollapsed}
+          title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {isCollapsed ? (
+            <HiOutlineChevronDoubleRight />
+          ) : (
+            <HiOutlineChevronDoubleLeft />
+          )}
+        </ToggleButton>
 
-      {/* {!isCollapsed && <Uploader />} */}
+        <Logo collapsed={isCollapsed} />
+        <MainNav onNavigate={closeMobileMenu} />
 
-      <SidebarAccount collapsed={isCollapsed} />
-    </StyledSidebar>
+        {/* {!isCollapsed && <Uploader />} */}
+
+        <SidebarAccount collapsed={isCollapsed} onNavigate={closeMobileMenu} />
+      </StyledSidebar>
+    </>
   );
 }
 
