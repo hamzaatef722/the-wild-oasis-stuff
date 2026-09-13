@@ -1,7 +1,7 @@
 // NewBookingForm.jsx
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { differenceInDays, parseISO } from "date-fns";
 
 import { useCabin } from "../cabins/useCabin";
@@ -14,6 +14,8 @@ import Button from "../../ui/Button";
 import Spinner from "../../ui/Spinner";
 
 function NewBookingForm() {
+  const { state } = useLocation();
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -24,8 +26,12 @@ function NewBookingForm() {
   const { cabin, isLoading: isLoadingCabin } = useCabin(cabinId);
   const { settings, isLoading: isLoadingSettings } = useSettings();
 
-  const [numGuests, setNumGuests] = useState(1);
-  const [hasBreakfast, setHasBreakfast] = useState(false);
+  const [numGuests, setNumGuests] = useState(
+    state?.bookingData?.numGuests || 1,
+  );
+  const [hasBreakfast, setHasBreakfast] = useState(
+    state?.bookingData?.hasBreakfast || false,
+  );
 
   const { register, handleSubmit, formState } = useForm({
     defaultValues: { isPaid: false },
@@ -103,6 +109,7 @@ function NewBookingForm() {
         <Input
           type="text"
           id="fullName"
+          defaultValue={state?.guest?.fullName || ""}
           {...register("fullName", { required: "This field is required" })}
         />
       </FormRow>
@@ -111,6 +118,7 @@ function NewBookingForm() {
         <Input
           type="email"
           id="email"
+          defaultValue={state?.guest?.email || ""}
           {...register("email", { required: "This field is required" })}
         />
       </FormRow>
@@ -119,18 +127,26 @@ function NewBookingForm() {
         <Input
           type="text"
           id="nationalID"
+          defaultValue={state?.guest?.nationalID || ""}
           {...register("nationalID", { required: "This field is required" })}
         />
       </FormRow>
 
       <FormRow label="Nationality">
-        <Input type="text" id="nationality" {...register("nationality")} />
+        <Input
+          type="text"
+          id="nationality"
+          defaultValue={state?.guest?.nationality || ""}
+          {...register("nationality")}
+        />
       </FormRow>
 
       <FormRow
         label="Number of guests"
         error={!isGuestsValid ? `Max ${maxGuestsAllowed} guests` : ""}
       >
+        {/* Controlled بالكامل — من غير register ولا defaultValue، عشان
+            numGuests هو نفسه اللي بيتحسب بيه السعر لحظيًا فوق. */}
         <Input
           type="number"
           id="numGuests"
@@ -142,6 +158,7 @@ function NewBookingForm() {
       </FormRow>
 
       <FormRow label="Want breakfast?">
+        {/* نفس الموضوع: controlled بالكامل، من غير register ولا defaultChecked */}
         <Checkbox
           id="hasBreakfast"
           checked={hasBreakfast}
@@ -152,13 +169,21 @@ function NewBookingForm() {
       </FormRow>
 
       <FormRow label="Already paid?">
-        <Checkbox id="isPaid" {...register("isPaid")}>
+        <Checkbox
+          id="isPaid"
+          defaultChecked={state?.bookingData?.isPaid || false}
+          {...register("isPaid")}
+        >
           Yes, already paid
         </Checkbox>
       </FormRow>
 
       <FormRow label="Observations">
-        <Textarea id="observations" {...register("observations")} />
+        <Textarea
+          id="observations"
+          defaultValue={state?.bookingData?.observations || ""}
+          {...register("observations")}
+        />
       </FormRow>
 
       <FormRow>

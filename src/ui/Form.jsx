@@ -20,9 +20,10 @@ const Form = styled.form`
     props.type === "modal" &&
     css`
       width: 80rem;
+      max-width: 100%;
 
       @media (max-width: 767px) {
-        width: min(90vw, 80rem);
+        width: 100%;
       }
     `}
     

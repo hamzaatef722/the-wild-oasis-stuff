@@ -8,8 +8,7 @@ export function useCreateBooking() {
   const { isLoading: isCreating, mutate: createBooking } = useMutation({
     mutationFn: (newBookingData) => createBookingApi(newBookingData),
     onSuccess: (data) => {
-      toast.success(`New #${data.id} created `);
-      console.log(data);
+      toast.success(`New booking #${data.id} created `);
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
     },
     onError: (err) =>

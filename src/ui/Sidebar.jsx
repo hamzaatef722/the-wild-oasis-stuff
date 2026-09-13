@@ -35,7 +35,9 @@ const StyledSidebar = styled.aside`
     z-index: 200;
     border-right: none;
     border-left: 1px solid var(--color-sidebar-border);
-    transform: translateX(${(props) => (props.$isMobileMenuOpen ? "0" : "100%")});
+    transform: translateX(
+      ${(props) => (props.$isMobileMenuOpen ? "0" : "100%")}
+    );
     transition: transform 0.25s ease;
     box-shadow: var(--shadow-lg);
   }

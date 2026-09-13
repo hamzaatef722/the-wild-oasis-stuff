@@ -2,8 +2,8 @@ import styled, { css } from "styled-components";
 
 const sizes = {
   small: css`
-    font-size: 1.2rem;
-    padding: 0.6rem 1.2rem;
+    font-size: 1.1rem;
+    padding: 0.6rem 1.1rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     font-weight: 600;
@@ -65,7 +65,10 @@ const variations = {
 const Button = styled.button`
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
-  transition: background-color 0.2s, color 0.2s, transform 0.15s;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    transform 0.15s;
 
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}

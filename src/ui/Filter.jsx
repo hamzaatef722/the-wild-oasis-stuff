@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const StyledFilter = styled.div`
+  width: fit-content;
   border: 1px solid var(--color-grey-200);
   background-color: var(--color-grey-100);
   border-radius: var(--border-radius-full);
@@ -11,7 +12,7 @@ const StyledFilter = styled.div`
 
   @media (max-width: 767px) {
     flex-wrap: wrap;
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-full);
     justify-content: center;
   }
 `;
@@ -35,6 +36,9 @@ const FilterButton = styled.button`
   /* To give the same height as select */
   padding: 0.6rem 1.2rem;
   transition: all 0.2s;
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
 
   &:hover:not(:disabled) {
     color: var(--color-grey-800);

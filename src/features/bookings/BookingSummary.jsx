@@ -86,7 +86,16 @@ function BookingSummary() {
   }
 
   function handleEdit() {
-    navigate(-1);
+    const params = new URLSearchParams({
+      cabinId: cabin.id,
+      startDate: bookingData.startDate,
+      endDate: bookingData.endDate,
+    });
+
+    navigate(`/bookings/book-cabins/${cabin.id}?${params.toString()}`, {
+      state: { bookingData, guest },
+      replace: true,
+    });
   }
 
   return (

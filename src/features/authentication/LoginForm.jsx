@@ -9,8 +9,8 @@ import SpinnerMini from "../../ui/SpinnerMini";
 import { useLogin } from "./useLogin";
 
 function LoginForm() {
-  const [email, setEmail] = useState("hamzaatef@gmail.com");
-  const [password, setPassword] = useState("hamzaatef123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const { isLoading, login } = useLogin();
 
@@ -30,6 +30,7 @@ function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
+          placeholder="email@example.com"
         />
       </FormRow>
       <FormRow label="Password" orientation="vertical">

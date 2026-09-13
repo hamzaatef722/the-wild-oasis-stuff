@@ -3,7 +3,8 @@ import Button from "./Button";
 import Heading from "./Heading";
 
 const StyledConfirmDelete = styled.div`
-  width: 40rem;
+  width: 100%;
+  max-width: 40rem;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -17,6 +18,17 @@ const StyledConfirmDelete = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 1.2rem;
+  }
+
+  @media (max-width: 767px) {
+    & div {
+      flex-direction: column-reverse;
+
+      & > button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
   }
 `;
 

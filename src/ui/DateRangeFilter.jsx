@@ -11,6 +11,9 @@ const StyledFilter = styled.div`
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-sm);
   padding: 1.2rem 1.6rem;
+  @media (max-width: 767px) {
+    padding: 1.2rem 1.2rem;
+  }
 `;
 
 const Field = styled.div`
@@ -30,7 +33,9 @@ const Label = styled.label`
 
 const DateInput = styled.input`
   font-family: var(--font-operational);
-  font-feature-settings: "tnum" 1, "lnum" 1;
+  font-feature-settings:
+    "tnum" 1,
+    "lnum" 1;
   font-size: 1.4rem;
   color: var(--color-grey-800);
   height: 3.6rem;

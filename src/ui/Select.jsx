@@ -3,7 +3,7 @@ import styled from "styled-components";
 const StyledSelect = styled.select`
   font-size: 1.4rem;
   height: 4.2rem;
-  padding: 0 1.2rem;
+  padding: 0 1rem;
   border: 1px solid
     ${(props) =>
       props.type === "white"
@@ -12,7 +12,7 @@ const StyledSelect = styled.select`
   border-radius: var(--border-radius-sm);
   background-color: var(--color-grey-0);
   color: var(--color-grey-800);
-  font-weight: 500;
+  font-weight: 400;
   box-shadow: var(--shadow-sm);
 
   @media (max-width: 767px) {

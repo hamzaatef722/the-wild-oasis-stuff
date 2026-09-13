@@ -57,7 +57,6 @@ function BookingDetail() {
           <Heading type="h1">Booking #{bookingId}</Heading>
           <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
         </HeadingGroup>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
 
       <BookingDataBox booking={booking} />

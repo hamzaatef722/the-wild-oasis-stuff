@@ -37,6 +37,17 @@ const StyledFormRow = styled.div`
     align-items: center;
     gap: 1.2rem;
     margin-top: 0.4rem;
+
+    @media (max-width: 767px) {
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: 1rem;
+
+      & > button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
   }
 `;
 
