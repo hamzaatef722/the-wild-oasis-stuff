@@ -1,5 +1,5 @@
 import { useUser } from "./useUser";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useUpdateUser } from "./useUpdateUser";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
@@ -34,7 +34,7 @@ function UpdateUserDataForm() {
     );
   }
 
-  function handleCancel(e) {
+  function handleCancel() {
     // We don't even need preventDefault because this button was designed to reset the form (remember, it has the HTML attribute 'reset')
     setFullName(currentFullName);
     setAvatar(null);

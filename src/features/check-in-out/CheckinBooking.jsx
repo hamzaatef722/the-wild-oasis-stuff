@@ -6,7 +6,6 @@ import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
-import ButtonText from "../../ui/ButtonText";
 import Checkbox from "../../ui/Checkbox";
 
 import BookingDataBox from "../bookings/BookingDataBox";

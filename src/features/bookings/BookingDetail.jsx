@@ -10,7 +10,6 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import ButtonText from "../../ui/ButtonText";
 import Empty from "../../ui/Empty";
 
 import { useBooking } from "./useBooking";

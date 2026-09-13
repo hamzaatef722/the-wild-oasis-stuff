@@ -1,4 +1,3 @@
-import { fi } from "date-fns/locale";
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function signup({ email, password, fullName }) {

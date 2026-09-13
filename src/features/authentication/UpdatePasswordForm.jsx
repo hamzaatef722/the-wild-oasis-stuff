@@ -15,7 +15,7 @@ function UpdatePasswordForm() {
     updateUser({ password }, { onSuccess: () => reset() });
   }
 
-  function handleReset(e) {
+  function handleReset() {
     // e.preventDefault();
     reset();
   }

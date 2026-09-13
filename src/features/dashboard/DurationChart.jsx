@@ -316,7 +316,7 @@ function DurationChart({ recentStays }) {
             startAngle={180}
             endAngle={-180}
           >
-            {data.map((entry, i) => (
+            {data.map((entry) => (
               <Cell
                 key={entry.duration}
                 fill={entry.color}
@@ -332,7 +332,12 @@ function DurationChart({ recentStays }) {
             layout={isMobile ? "horizontal" : "vertical"}
             wrapperStyle={
               isMobile
-                ? { display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.4rem 1.2rem" }
+                ? {
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    gap: "0.4rem 1.2rem",
+                  }
                 : undefined
             }
             iconSize={15}
